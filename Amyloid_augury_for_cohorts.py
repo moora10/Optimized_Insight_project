@@ -26,7 +26,7 @@ if uploaded_file is None:
 #import model 
 import pickle
 filename = 'random_forest_model_optimized.sav'
-loaded_model = pickle.load(open("/Users/annahmoore/Desktop/random_forest_model_optimized.sav", 'rb'))
+loaded_model = pickle.load(open(filename, 'rb'))
 
 out = loaded_model.predict(data)
 
