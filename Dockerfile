@@ -15,5 +15,4 @@ RUN conda install scikit-learn
 
 CMD gunicorn --bind 0.0.0.0:$PORT wsgi
 
-# save env spec.
-conda env export > environment.yml
+
