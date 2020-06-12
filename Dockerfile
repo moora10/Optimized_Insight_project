@@ -1,15 +1,19 @@
+#adapted from https://github.com/heroku-examples/python-miniconda
 FROM heroku/miniconda
 
 # Grab requirements.txt.
-ADD ./webapp/requirements.txt /tmp/requirements.txt
+ADD requirements.txt 
 
 # Install dependencies
-RUN pip install -qr /tmp/requirements.txt
+RUN pip install -qr requirements.txt
 
 # Add our code
-ADD ./webapp /opt/webapp/
-WORKDIR /opt/webapp
+ADD ./ /opt/
+WORKDIR /opt/
 
 RUN conda install scikit-learn
 
 CMD gunicorn --bind 0.0.0.0:$PORT wsgi
+
+# save env spec.
+conda env export > environment.yml
