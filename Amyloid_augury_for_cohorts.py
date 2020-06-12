@@ -10,6 +10,7 @@ Created on Tue Jun  9 22:10:04 2020
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sklearn import datasets, ensemble
 from sklearn.ensemble import RandomForestClassifier
 
 st.write("""
