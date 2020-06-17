@@ -38,8 +38,8 @@ if st.button('Predict'):
 	out_framed = pd.DataFrame(data=out.flatten(), columns=['Prediction'])
 
 	#change from 0 and 1 to high and low risk
-	out_framed.replace(0, "high risk", inplace=True)
-	out_framed.replace(1, "low risk", inplace=True)
+	out_framed.replace(0, "low risk", inplace=True)
+	out_framed.replace(1, "high risk", inplace=True)
 
 	results_full = pd.concat([out_framed, data], axis=1, sort=False)
 
