@@ -17,10 +17,9 @@ st.write("""
          # Amyloid Augury
          **_Personalized_** risk profiling for the earliest pathological marker of Alzheimer's disease
 """)
-import base64
 
 #create template for download
-template = pd.read_csv("/Users/annahmoore/Desktop/columns.csv")
+template = pd.read_csv('columns.csv')
 st.write('Template available for download below')
 def get_table_download_link(df):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
@@ -42,8 +41,8 @@ if uploaded_file is None:
      st.write("Please upload data file")
 
 #import model 
-filename = 'random_forest_model_final.sav'
-loaded_model = pickle.load(open("/Users/annahmoore/Desktop/random_forest_model_final.sav", 'rb'))
+filename = 'random_forest_model_optimized.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
 
 if st.button('Predict'):
     out = loaded_model.predict(data)
@@ -69,7 +68,7 @@ if st.button('Predict'):
         b64 = base64.b64encode(
             csv.encode()
         ).decode()  # some strings <-> bytes conversions necessary here
-        return f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download results file</a>'
+        return f'<a href="data:file/csv;base64,{b64}" download="amyloid_risk_predictions.csv">Download results file</a>'
 
     st.markdown(get_table_download_link(results_full), unsafe_allow_html=True)
 
@@ -105,36 +104,4 @@ if st.button('Predict'):
     #if results_full.iloc[3,0] == 'low risk':
      #       st.header("Low risk for brain amyloid, recommended that this candidate does not move to PET screen")
 
-
-#####old
-#out = loaded_model.predict(data)
-
-#save prediction as an array 
-#out = np.array(out)
-
-#out_framed = pd.DataFrame(data=out.flatten(), columns=['Prediction'])
-
-#out_framed.replace(0, "high risk", inplace=True)
-#out_framed.replace(1, "low risk", inplace=True)
-#out_framed.replace(to_replace =[0],  
-                          #  value ='high risk')
-#append the array onto the dataframe as a new column
-#data['prediction'] = out
-#results_full = pd.concat([out_framed, data], axis=1, sort=False)
-
-#st.write(results_full)
-
-#import base64
-#def get_table_download_link(df):
- #   """Generates a link allowing the data in a given panda dataframe to be downloaded
-  #  in:  dataframe
-   # out: href string
-   # """
-   # csv = df.to_csv(index=False)
-   # b64 = base64.b64encode(
-   #     csv.encode()
-   # ).decode()  # some strings <-> bytes conversions necessary here
-   # return f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
-
-#st.markdown(get_table_download_link(results_full), unsafe_allow_html=True)
 
