@@ -78,7 +78,10 @@ if st.button('Predict'):
 	st.markdown(get_table_download_link(results_full), unsafe_allow_html=True)
 
 #### Allow exploration of individual candidates 
-    	candidate_selection = st.sidebar.selectbox("Select a trial candidate for exploration",('Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4'))
+    	candidate_selection = st.sidebar.selectbox(
+    	"Select a trial candidate for exploration",
+    	('Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4')
+)
     	if candidate_selection == 'Candidate 1':
             st.write(results_full.iloc[0, 0:51])
             if results_full.iloc[0,0] == "high risk":
