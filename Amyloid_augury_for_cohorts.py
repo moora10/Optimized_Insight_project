@@ -71,6 +71,7 @@ if st.button('Predict'):
         return f'<a href="data:file/csv;base64,{b64}" download="amyloid_risk_predictions.csv">Download results file</a>'
 
     st.markdown(get_table_download_link(results_full), unsafe_allow_html=True)
+    st.subheader("High risk candidates for brain amyloid are recommended to move to PET screening.")
 
 ## Add individual exploratory sidebar with some of the most important features
 st.sidebar.header("Individual exploratory mode")                
