@@ -17,10 +17,10 @@ st.write("""
          # Amyloid Augury
          **_Personalized_** risk profiling for the earliest pathological marker of Alzheimer's disease
 """)
-
+st.header("Cohort mode") 
 #create template for download
 template = pd.read_csv('columns.csv')
-st.write('Template available for download below')
+st.write('Cohort mode template available for download below')
 def get_table_download_link(df):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
     in:  dataframe
@@ -72,36 +72,37 @@ if st.button('Predict'):
 
     st.markdown(get_table_download_link(results_full), unsafe_allow_html=True)
 
-#### Allow some exploration of individual trial candidates 
-    candidate_selection = st.sidebar.selectbox(
-    "Select a trial candidate for exploration",
-    ('Candidate 1', 'Candidate 2', 'Candidate 3', 'Candidate 4')
-)
-    if candidate_selection == 'Candidate 1':
-            st.write(results_full.iloc[0, 0:51])
-            if results_full.iloc[0,0] == "high risk":
-                st.header("High risk for brain amyloid, recommended that this candidate moves to PET screen")
-            else:
-                st.header("Low risk for brain amyloid, recommended that this candidate does not move to PET screen")
-    if candidate_selection == 'Candidate 2':
-            st.write(results_full.iloc[1, 0:51])
-            if results_full.iloc[1,0] == "high risk":
-                st.header("High risk for brain amyloid, recommended that this candidate moves to PET screen")
-            else:
-                st.header("Low risk for brain amyloid, recommended that this candidate does not move to PET screen")
+## Add individual exploratory sidebar with some of the most important features
+st.sidebar.header("Individual exploratory mode")                
+                
+st.sidebar.subheader('Demographics')
+age = st.sidebar.slider('Age', 54, 90, 78, 1)
 
-    #if candidate_selection == 'Candidate 3':
-     #       st.write(results_full.iloc[2, 0:51])
-    #if results_full.iloc[2,0] == 'high risk':
-     #       st.header("High risk for brain amyloid, recommended that this candidate moves to PET screen")
-    #if results_full.iloc[2,0] == 'low risk':
-     #       st.header("Low risk for brain amyloid, recommended that this candidate does not move to PET screen")
+st.sidebar.subheader('Genetic Profile')
+apoe_count = st.sidebar.selectbox('APOE4 Allele Count', ('0', '1', '2'), 2)
+superPGRSATN = st.sidebar.slider('Genetic Risk Score', -1.3, 1.3, 1.2, 0.1)
 
-    #if candidate_selection == 'Candidate 4':
-    #        st.write(results_full.iloc[3, 0:51])
-    #if results_full.iloc[3,0] == 'high risk':
-     #       st.header("High risk for brain amyloid, recommended that this candidate moves to PET screen")
-    #if results_full.iloc[3,0] == 'low risk':
-     #       st.header("Low risk for brain amyloid, recommended that this candidate does not move to PET screen")
+st.sidebar.subheader('Serum Protein Concentrations')
+ChromograninA = st.sidebar.slider('Chromogranin A (ng/mL)', 1.0, 3.4, 2.5, 0.1)
+Eotaxin = st.sidebar.slider('Eotaxin.3 (pg/mL)', 1.5, 3.3, 3.0, 0.1)
+Tenascin_C = st.sidebar.slider('Tenascin C (ng/mL)', 2.2, 3.4, 2.3)
 
+filename = 'indiv_exploratory.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
+
+if st.sidebar.button('Individual Prediction'):
+
+    X_test ={'apoe_count': apoe_count, 'age': age, 'Chromogranin.A.':ChromograninA, 'Eotaxin': Eotaxin, 'superPGRSATN_kunkle': superPGRSATN_kunkle, 'Tenascin.C': Tenascin_C}
+
+
+    X_test = pd.DataFrame.from_dict(X_test, orient='index')
+#transpose
+    X_test_input = X_test.T
+
+    out = loaded_model.predict(X_test_input)
+#print(y_pred)
+    if out == 1:
+        st.title('High risk for brain amyloid, recommended that this candidate moves to PET screen')
+    else: 
+        st.title('Low risk for brain amyloid, recommended that this candidate does not move to PET screen')
 
