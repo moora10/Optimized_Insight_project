@@ -92,7 +92,7 @@ loaded_model = pickle.load(open(filename, 'rb'))
 
 if st.sidebar.button('Individual Prediction'):
 
-    X_test ={'apoe_count': apoe_count, 'age': age, 'Chromogranin.A.':ChromograninA, 'Eotaxin': Eotaxin, 'superPGRSATN_kunkle': superPGRSATN_kunkle, 'Tenascin.C': Tenascin_C}
+    X_test ={'apoe_count': apoe_count, 'age': age, 'Chromogranin.A.':ChromograninA, 'Eotaxin': Eotaxin, 'superPGRSATN': superPGRSATN, 'Tenascin.C': Tenascin_C}
 
 
     X_test = pd.DataFrame.from_dict(X_test, orient='index')
